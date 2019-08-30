@@ -21,6 +21,19 @@
             require_once '../app/controllers/'. $this->currentController . '.php';
             //Instantiate Controller Class
             $this->currentController = new $this->currentController;
+            //Check for Second Part of the URL
+            if(isset($url[1])) {
+                //Check to See if Method Exists in Controller
+                if(method_exists($this->currentController, $url[1])) {
+                    $this->currentMethod = $url[1];
+                    //Unset 1 Index
+                    unset($url[1]);
+                }
+            }
+            //Get Params
+            $this->params = $url ? array_values($url) : [];
+            //Call a Callback with an Array of Params
+            call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
         }
 
         public function getUrl() {
