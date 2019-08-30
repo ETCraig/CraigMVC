@@ -12,6 +12,9 @@
         }
 
         public function about() {
-            $this->view('pages/About');
+            $data = [
+                'title' => 'About'
+            ];
+            $this->view('pages/About', $data);
         }
     }
