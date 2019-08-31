@@ -1,13 +1,14 @@
 <?php
     class Pages extends Controller {
         public function __construct() {
-
+            
         }
 
         public function index() {
             $data = [
-                'title' => 'Welcome'
+                'title' => 'Craig-MVC'
             ];
+
             $this->view('pages/Index', $data);
         }
 
