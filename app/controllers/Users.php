@@ -30,14 +30,17 @@
                         $data['email_error'] = 'Email is Already in Use';
                     }
                 }
+                //Validate Name
                 if(empty($data['name'])) {
                     $data['name_error'] = 'Please Enter Name';
                 }
+                //Validate Password
                 if(empty($data['password'])) {
                     $data['password_error'] = 'Please Enter Password';
                 } else if(strlen($data['password']) < 6) {
                     $data['password_error'] = 'Password Must Greater Than 6 Characters';
                 }
+                //Validate Confirmed Password
                 if(empty($data['confirm_password'])) {
                     $data['confirm_pass_error'] = 'Please Confirm Password';
                 } else {
@@ -56,6 +59,7 @@
                         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                         //Register User
                         if($this->userModel->register($data)) {
+                            flash('register_success', 'You Are Register and Can log In!');
                             redirect('users/login');
                         } else {
                             die('Something Went Wrong.');
@@ -98,12 +102,28 @@
                 if(empty($data['email'])) {
                     $data['email_error'] = 'Please Enter Email';
                 }
+                //Validate Password
                 if(empty($data['password'])) {
                     $data['password_error'] = 'Please Enter Password';
                 }
+                //Check For User/Email
+                if($this->userModel->findUserByEmail($data['email'])) {
+                    //User Found
+                } else {
+                    //User Not Found
+                    $data['email_error'] = 'No User Found';
+                }
                 //Check Errors Status
                 if(empty($data['email_error']) && empty($data['password_error'])) {
-                    die('SUCCESS');
+                    //Check & Set Logged In User
+                    $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                    if($loggedInUser) {
+                        //Create Session
+                        die('Success');
+                    } else {
+                        $data['password_error'] = 'Password Incorrect';
+                        $this->view('users/login', $data);
+                    }
                 } else {
                     //Load View with Errors
                     $this->view('users/Login', $data);
