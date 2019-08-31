@@ -5,6 +5,9 @@
         }
 
         public function index() {
+            if(isLoggedIn()) {
+                redirect('posts');
+            }
             $data = [
                 'title' => 'Craig-MVC',
                 'description' => 'Simple Social Network Built on the Craig-MVC PHP Framework.'
