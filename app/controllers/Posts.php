@@ -120,4 +120,22 @@
 
             $this->view('posts/show', $data);
         }
+
+        public function delete($id) {
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                //Check If Owner
+                $post = $this->postModel->getPostById($id);
+                if($post->user_id != $_SESSION['user_id']) {
+                    redirect('posts');
+                }
+                if($this->postModel->deletePost($id)) {
+                    flash('post_message', 'Post removed');
+                    redirect('posts');
+                } else {
+                    die('Something Went Wrong');
+                }
+            } else {
+                redirect('posts');
+            }
+        }
     }
