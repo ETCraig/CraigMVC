@@ -16,10 +16,10 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo URLROOT; ?>/user/register">Register</a>
+        <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?PHP echo URLROOT; ?>/user/login">Login</a>
+        <a class="nav-link" href="<?PHP echo URLROOT; ?>/users/login">Login</a>
       </li>
     </ul>
   </div>
