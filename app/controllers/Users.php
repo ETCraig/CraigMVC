@@ -1,7 +1,7 @@
 <?php 
     class Users extends Controller {
         public function __construct() {
-
+            $this->userModel = $this->model('User');
         }
 
         public function register() {
@@ -24,6 +24,11 @@
                 //Validate Email
                 if(empty($data['email'])) {
                     $data['email_error'] = 'Please Enter Email';
+                } else {
+                    //Check Email
+                    if($this->userModel->findUserByEmail($data['email'])) {
+                        $data['email_error'] = 'Email is Already in Use';
+                    }
                 }
                 if(empty($data['name'])) {
                     $data['name_error'] = 'Please Enter Name';
@@ -47,7 +52,14 @@
                     empty($data['name_error']) && 
                     empty($data['password_error']) && 
                     empty($data['confirm_pass_error'])) {
-                        die('SUCCESS');
+                        //Has Password
+                        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+                        //Register User
+                        if($this->userModel->register($data)) {
+                            redirect('users/login');
+                        } else {
+                            die('Something Went Wrong.');
+                        }
                     } else {
                         //Load View with Errors
                         $this->view('users/Register', $data);
