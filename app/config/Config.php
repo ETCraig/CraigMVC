@@ -9,4 +9,6 @@
     //URL Root
     define('URLROOT', '');
     //Site Name
-    define('SITENAME', '');
+    define('SITENAME', 'Craig-MVC');
+    //App Version
+    define('APPVERSION', '1.0.0');
