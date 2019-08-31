@@ -4,10 +4,17 @@
             if(!isLoggedIn()) {
                 redirect('users/login');
             } 
+
+            $this->postModel = $this->model('Post');
         }
         public function index() {
-            $data = [];
+            //Get posts
+            $posts = $this->postModel->getPosts();
 
-            $this->view('posts/Index');
+            $data = [
+                'posts' => $posts
+            ];
+
+            $this->view('posts/Index', $data);
         }
     }
